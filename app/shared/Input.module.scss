@@ -13,6 +13,7 @@
         font-size: 13px;
         border-radius: 8px;
         padding-inline: 10px;
+         box-sizing: border-box;
         color: #000;
         &:focus-visible{
             outline: 0;

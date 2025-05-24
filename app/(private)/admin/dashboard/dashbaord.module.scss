@@ -1,0 +1,107 @@
+.dashbaord-inner {
+   display: flex;
+
+   .dashbaord-left {
+      flex: 0 0 20%;
+      border-right: 1px solid #ccc;
+
+      .site--logo {
+         width: 100px;
+         height: 100px;
+
+         img {
+            object-fit: contain;
+         }
+      }
+   }
+
+   .dashbaord-right {
+      flex: 1;
+      padding: 40px 30px 0 30px;
+
+      .dashbaord-info-sec {
+         margin-bottom: 15px;
+
+         h4 {
+            font-size: 25px;
+            line-height: 25px;
+            margin-bottom: 35px;
+            color: #000;
+         }
+      }
+
+      .dashbaord_info-search {
+         form {
+
+            display: flex;
+            align-items: center;
+            gap: 0 10px;
+
+            .search-input {
+               position: relative;
+
+               svg {
+                  position: absolute;
+                  inset: 14px 0 0 10px
+               }
+
+               input {
+                  height: 40px;
+                  width: 250px;
+                  padding: 0 2px 0 32px;
+                  border: 1px solid #BCBCBC;
+                  color: #BCBCBC;
+                  border-radius: 8px;
+                  font-weight: 300;
+                  &:focus-within {
+                     outline: 0;
+                  }
+               }
+            }
+
+            .btn-status {
+               border: 1px solid #BCBCBC;
+               background-color: #fff;
+               padding: 13px 30px;
+               font-size: 13px;
+               border-radius: 8px;
+               color: #BCBCBC;
+               cursor: pointer;
+
+            }
+         }
+      }
+
+      .dashbaord__table-sec {
+         table {
+            width: 100%;
+            border: 1px solid #E8E8E8;
+                border-radius: 25px;
+
+            th {
+               border-bottom: 1px solid #E8E8E8;
+               text-align: left;
+               padding: 15px 0;
+               color: #BABABA;
+               font-weight: 300;
+               font-size: 15px;
+                &:first-child{
+                  padding-left: 18px;
+               }
+            }
+
+            td {
+               color: #111111;
+                border-bottom: 1px solid #E8E8E8;
+               font-size: 15px;
+               line-height: 20px;
+               padding: 20px 0;
+               text-align: left;
+               &:first-child{
+                  padding-left: 18px;
+               }
+            }
+         }
+      }
+   }
+}

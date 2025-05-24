@@ -27,3 +27,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
   }
 }
+export async function GET() {
+  try {
+    const client = await clientPromise;
+    const db = client.db('lead-management');
+    const collection = db.collection('leads');
+
+    const data = await collection.find({}).toArray();
+
+    return NextResponse.json({ success: true, data });
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    return NextResponse.json({ success: false, error: 'Something went wrong' }, { status: 500 });
+  }
+}
