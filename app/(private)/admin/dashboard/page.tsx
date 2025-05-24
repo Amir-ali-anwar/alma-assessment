@@ -11,12 +11,20 @@ import { FaArrowDown } from "react-icons/fa6";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 import { Loader } from "@/app/shared/Loader/Loader";
-type Lead<T = any> = {
-  [key: string]: T;
-};
+interface LeadData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  visas: string[];
+  status:string
+  country:string
+  submittedAt:Date
+  _id:string
+  // ... other fields
+}
 export default function Dashboard() {
   // const router = useRouter();
-  const [data, setData] = useState<Lead[]>([]);
+  const [data, setData] = useState<LeadData[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpenSidebar, setOpenSidebar] = useState<boolean>(false);
   const toggleSidebar = () => {

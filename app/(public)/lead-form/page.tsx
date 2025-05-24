@@ -61,12 +61,16 @@ export default function LeadForm() {
   const onSubmit = async (data: LeadFormData) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-      if (key === "visas") {
-        (value as string[]).forEach((v) => formData.append("visas", v));
-      } else {
-        formData.append(key, value as any);
-      }
-    });
+  if (key === "visas" && Array.isArray(value)) {
+    value.forEach((v) => formData.append("visas", v));
+  } else if (value instanceof Blob || typeof value === "string") {
+    formData.append(key, value);
+  } else if (value instanceof File) {
+    formData.append(key, value);
+  } else if (value != null) {
+    formData.append(key, String(value)); 
+  }
+});
     try {
       const response = await fetch("/api/leads", {
         method: "POST",
