@@ -1,10 +1,12 @@
 import React from "react";
-import { Controller } from "react-hook-form";
 import InputStyles from "../Input.module.scss";
+import { Controller, Control, FieldPath } from "react-hook-form";
+import {LeadFormData} from "@/app/(public)/lead-form/page";
+
 
 interface MultiSelectProps {
-  name: string;
-  control: any;
+  name: FieldPath<LeadFormData>;
+  control: Control<LeadFormData>;
   options: string[];
   label: string;
   error?: string;
