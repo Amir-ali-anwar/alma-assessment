@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import TextInput from "@/app/shared/Input/Input";
@@ -9,6 +9,8 @@ import FileInput from "@/app/shared/FileInput/FileInout";
 import MultiSelect from "@/app/shared/MultSelect/Multiselect";
 import styles from "../public.module.scss";
 import Button from "@/app/shared/Button/Button";
+
+
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
@@ -27,10 +29,12 @@ const schema = yup.object().shape({
   //   }),
 });
 export default function LeadForm() {
+  const router = useRouter();
   const {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -53,7 +57,8 @@ export default function LeadForm() {
       const result = await response.json();
 
       if (result.success) {
-        alert("Lead submitted successfully!");
+        reset();
+        router.push("/thank-you"); 
         // Optionally reset form
       } else {
         alert("Something went wrong.");
