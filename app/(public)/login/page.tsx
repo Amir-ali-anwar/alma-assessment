@@ -12,6 +12,10 @@ const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup.string().min(4, "Password too short").required("Password is required"),
 });
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
 
 export default function LoginForm() {
   const router = useRouter();
@@ -24,7 +28,7 @@ export default function LoginForm() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: LoginFormValues) => {
     const { email, password } = data;
 
     if (email === "admin@example.com" && password === "admin123") {

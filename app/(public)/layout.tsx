@@ -1,5 +1,4 @@
 import React from "react";
-import styles from './public.module.scss'
 export const metadata = {
   title: "Lead Submission | YourApp",
   description: "Submit your details for visa opportunities",

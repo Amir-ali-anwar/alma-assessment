@@ -148,7 +148,7 @@ export default function LeadForm() {
             />
             <div className={`${styles["visas__sec"]}`}>
               <div className={`${styles["visas__sec-inner"]}`}>
-                <img src="./images/dice-img.png" alt="" />
+                <Image  src="/images/dice-img.png" alt="dice image" width={68} height={63} />
                 <h3>Visa categories of interest?</h3>
               </div>
               <MultiSelect
@@ -161,7 +161,7 @@ export default function LeadForm() {
             </div>
             <div className={`${styles["info__sec"]}`}>
               <div className={`${styles["info__sec-inner"]}`}>
-                <img src="./images/heart-img.png" alt="" />
+                 <Image  src="/images/heart-img.png" alt="heart iamge" width={65} height={55} />
                 <h3>How can we help you?</h3>
               </div>
               <TextAreaInput

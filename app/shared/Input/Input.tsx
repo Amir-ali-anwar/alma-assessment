@@ -10,7 +10,7 @@ interface TextInputProps {
 }
 
 const TextInput: React.FC<TextInputProps> = ({
-  label,
+  // label,
   name,
   register,
   error,
@@ -18,7 +18,7 @@ const TextInput: React.FC<TextInputProps> = ({
   placeholder,
 }) => (
   <div className={`${InputStyles["fom-input"]} ${error ? InputStyles['error'] : ''}`}>
-    <label htmlFor={name}>{label}</label>
+    {/* <label htmlFor={name}>{label}</label> */}
     <input
       id={name}
       type={type}

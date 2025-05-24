@@ -14,7 +14,6 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   name,
   control,
   options,
-  label,
   error,
 }) => (
   <div className={`${InputStyles["input-checkboxes"]} ${error ? InputStyles['error'] : ''}`}>

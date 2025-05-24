@@ -10,7 +10,6 @@ interface TextAreaProps {
 }
 
 const TextAreaInput: React.FC<TextAreaProps> = ({
-  label,
   name,
   register,
   error,
