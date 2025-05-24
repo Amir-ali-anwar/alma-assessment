@@ -10,7 +10,7 @@ interface FileInputProps {
 }
 
 const FileInput: React.FC<FileInputProps> = ({ name, control, error, label }) => (
-  <div className="input--file">
+  <div  className={`${InputStyles['input--file']}`}>
     <label>{label}</label>
     <Controller
       control={control}

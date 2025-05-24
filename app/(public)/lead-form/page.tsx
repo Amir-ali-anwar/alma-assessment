@@ -16,6 +16,15 @@ const schema = yup.object().shape({
   linkedIn: yup.string().url("Invalid URL").required("LinkedIn is required"),
   visas: yup.array().min(1, "Select at least one visa").required(),
   additionalInfo: yup.string().required("Additional info required"),
+  //  resume: yup
+  //   .mixed()
+  //   .required("Resume is required")
+  //   .test("fileType", "Only PDF files are allowed", (value) => {
+  //     return value && value?.type === "application/pdf";
+  //   })
+  //   .test("fileSize", "File size must be less than 5MB", (value) => {
+  //     return value && value?.size <= 5 * 1024 * 1024;
+  //   }),
 });
 export default function LeadForm() {
   const {
@@ -112,12 +121,13 @@ export default function LeadForm() {
           />
         </div>
 
-        {/* <FileInput
+        <FileInput
           label="Resume / CV"
           name="resume"
           control={control}
-          error={errors.resume?.message}
-        /> */}
+        
+          // error={errors.resume?.message}
+        />
 
         <Button className={`${styles["btn-submit"]}`}>Submit</Button>
       </form>
