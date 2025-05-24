@@ -1,8 +1,7 @@
 import React from "react";
 import InputStyles from "../Input.module.scss";
 import { Controller, Control, FieldPath } from "react-hook-form";
-import {LeadFormData} from "@/app/(public)/lead-form/page";
-
+import { LeadFormData } from "@/app/(public)/lead-form/page";
 
 interface MultiSelectProps {
   name: FieldPath<LeadFormData>;
@@ -18,17 +17,26 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   options,
   error,
 }) => (
-  <div className={`${InputStyles["input-checkboxes"]} ${error ? InputStyles['error'] : ''}`}>
+  <div
+    className={`${InputStyles["input-checkboxes"]} ${
+      error ? InputStyles["error"] : ""
+    }`}
+  >
     {/* <label>{label}</label> */}
     <Controller
       name={name}
       control={control}
       render={({ field }) => {
-        const { value = [], onChange } = field;
+        const onChange = field.onChange;
+        const value: string[] = Array.isArray(field.value)
+          ? field.value
+          : typeof field.value === "string"
+          ? [field.value]
+          : [];
 
         const handleCheckboxChange = (option: string) => {
           if (value.includes(option)) {
-            onChange(value.filter((v: string) => v !== option));
+            onChange(value.filter((v) => v !== option));
           } else {
             onChange([...value, option]);
           }
@@ -37,16 +45,15 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         return (
           <>
             {options.map((opt) => (
-              <label key={opt} className={`${InputStyles["custom-checkbox-label"]}`}>
+              <label key={opt} className={InputStyles["custom-checkbox-label"]}>
                 <input
                   type="checkbox"
                   value={opt}
                   checked={value.includes(opt)}
                   onChange={() => handleCheckboxChange(opt)}
-                  className={`${InputStyles['custom-checkbox-input']}`}
-                  // className="custom-checkbox-input"
+                  className={InputStyles["custom-checkbox-input"]}
                 />
-                <span className={`${InputStyles["custom-checkbox-box"]}`}>
+                <span className={InputStyles["custom-checkbox-box"]}>
                   {value.includes(opt) && (
                     <svg
                       viewBox="0 0 24 24"
