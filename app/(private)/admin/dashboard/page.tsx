@@ -6,7 +6,7 @@ import { CiSearch } from "react-icons/ci";
 import Button from "@/app/shared/Button/Button";
 import { useEffect, useState } from "react";
 import { FaArrowDown } from "react-icons/fa6";
-
+import { Loader } from "@/app/shared/Loader/Loader";
 export default function Dashboard() {
   const router = useRouter();
   const [data, setData] = useState<any[]>([]);
@@ -29,11 +29,19 @@ export default function Dashboard() {
 
     getData();
   }, []);
+  const handleStatusUpdate = async (id: string) => {
+  await fetch(`/api/leads/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status: 'Reached Out' }),
+    headers: { 'Content-Type': 'application/json' },
+  });
+  // Refresh UI or update local state
+};
+
   const logout = () => {
     document.cookie = "token=; max-age=0; path=/"; // clear cookie
     router.push("/login");
   };
-
   return (
     <section className={`${styles["dashbaord-main"]}`}>
       <div className="container">
@@ -98,18 +106,45 @@ export default function Dashboard() {
                         Country <FaArrowDown />
                       </div>
                     </th>
+                    <th>
+                      <div className={`${styles["tbl-head-set"]}`}>
+                        Mark as Reached Out
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
-                    <tr key={index}>
-                      <td>
-                        {item.firstName} {item.lastName}
-                      </td>
-                      <td>{new Date(item.submittedAt).toLocaleDateString()}</td>
-                      <td>{item.status}</td>
+                  {loading ? (
+                    <tr>
+                      <Loader />
                     </tr>
-                  ))}
+                  ) : data.length === 0 ? (
+                    <tr>
+                      <td colSpan={3}>No applications found.</td>
+                    </tr>
+                  ) : (
+                    data.map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                          {item.firstName} {item.lastName}
+                        </td>
+                        <td>
+                          {new Date(item.submittedAt).toLocaleDateString()}
+                        </td>
+                        <td>{item?.status}</td>
+                        <td>{item?.country}</td>
+                        <td>
+                          {item.status === "Pending" || item.status === "PENDING" ? (
+                            <button onClick={() => handleStatusUpdate(item.id)} className={`${styles["btn-update"]}`}>
+                              Mark as Reached Out
+                            </button>
+                          ) : (
+                            <span>✅</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                   <tr>
                     <td colSpan={5}>
                       <div className={`${styles["paginaiton-main"]}`}>

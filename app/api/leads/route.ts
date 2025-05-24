@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       visas: data.getAll("visas"),
       additionalInfo: data.get("additionalInfo"),
       resume: data.get("resume"),
-      status: "PENDING",
+      status: "Pending",
       submittedAt: new Date(),
     };
 
