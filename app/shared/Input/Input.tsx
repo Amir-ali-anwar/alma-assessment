@@ -1,5 +1,5 @@
 import React from "react";
-
+import InputStyles from '../Input.module.scss'
 interface TextInputProps {
   label: string;
   name: string;
@@ -17,7 +17,7 @@ const TextInput: React.FC<TextInputProps> = ({
   type = "text",
   placeholder,
 }) => (
-  <div>
+  <div className={`${InputStyles["fom-input"]}`}>
     <label htmlFor={name}>{label}</label>
     <input
       id={name}
@@ -25,7 +25,7 @@ const TextInput: React.FC<TextInputProps> = ({
       {...register(name)}
       placeholder={placeholder}
     />
-    {error && <p>{error}</p>}
+    {error && <p className={`${InputStyles["input-error"]}`}>{error}</p>}
   </div>
 );
 

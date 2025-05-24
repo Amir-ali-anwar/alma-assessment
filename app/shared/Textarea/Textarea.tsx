@@ -1,4 +1,5 @@
 import React from "react";
+import InputStyles from "../Input.module.scss";
 
 interface TextAreaProps {
   label: string;
@@ -15,9 +16,11 @@ const TextAreaInput: React.FC<TextAreaProps> = ({
   error,
   placeholder,
 }) => (
-  <div>
-    <label htmlFor={name}>{label}</label>
+  <div className={`${InputStyles['form-textarea']}`}>
+    {/* <label htmlFor={name}>{label}</label> */}
     <textarea
+      rows={100}
+      cols={39}
       id={name}
       {...register(name)}
       placeholder={placeholder}

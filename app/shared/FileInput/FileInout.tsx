@@ -1,5 +1,6 @@
 import React from "react";
 import { Controller } from "react-hook-form";
+import InputStyles from '../Input.module.scss'
 
 interface FileInputProps {
   name: string;
@@ -9,7 +10,7 @@ interface FileInputProps {
 }
 
 const FileInput: React.FC<FileInputProps> = ({ name, control, error, label }) => (
-  <div>
+  <div className="input--file">
     <label>{label}</label>
     <Controller
       control={control}
@@ -18,7 +19,7 @@ const FileInput: React.FC<FileInputProps> = ({ name, control, error, label }) =>
         <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => onChange(e.target.files)} />
       )}
     />
-    {error && <p>{error}</p>}
+    {error && <p className={`${InputStyles["input-error"]}`}>{error}</p>}
   </div>
 );
 

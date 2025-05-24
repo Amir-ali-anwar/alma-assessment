@@ -1,56 +1,125 @@
 "use client";
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import TextInput from "@/app/shared/Input/Input";
+import TextAreaInput from "@/app/shared/Textarea/Textarea";
+import FileInput from "@/app/shared/FileInput/FileInout";
+import MultiSelect from "@/app/shared/MultSelect/Multiselect";
 import styles from "../public.module.scss";
-export default function LeadFormPage() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    linkedIn: "",
-    visas: [],
-    resume: null,
-    additionalInfo: "",
+import Button from "@/app/shared/Button/Button";
+const schema = yup.object().shape({
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  linkedIn: yup.string().url("Invalid URL").required("LinkedIn is required"),
+  visas: yup.array().min(1, "Select at least one visa").required(),
+  additionalInfo: yup.string().required("Additional info required"),
+});
+export default function LeadForm() {
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const form = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
+  const onSubmit = async (data: any) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
       if (key === "visas") {
-        (value as string[]).forEach((v) => form.append("visas", v));
+        (value as string[]).forEach((v) => formData.append("visas", v));
       } else {
-        form.append(key, value as Blob | string);
+        formData.append(key, value as any);
       }
     });
-
-    const res = await fetch("/api/leads", {
-      method: "POST",
-      body: form,
-    });
-
-    if (res.ok) {
-      alert("Thank you! Your information has been submitted.");
-    } else {
-      alert("There was an error. Please try again.");
-    }
+    console.log("Form submitted", formData);
   };
-
   return (
     <div className={`${styles["form__main-sec"]}`}>
-       <div className="container">
-          <div  className={`${styles["form__main-desc"]}`}>
-              <div className={`${styles["icon"]}`}>
-                  <img src="./images/icon.png" alt="" />
-              </div>
-              <div className={`${styles["form__main-desc--textset"]}`}>
-                  <h3>want to understand your visa options?</h3>
-                  <p>submit the form below and our team of experienced attorneys will reivew your information and send a preliminary assessment of your case based on your goals</p>
-              </div>
+      <div className="container">
+        <div className={`${styles["form__main-desc"]}`}>
+          <div className={`${styles["icon"]}`}>
+            <img src="./images/icon.png" alt="" />
           </div>
-      </div> 
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <button type="submit">Submit</button>
+          <div className={`${styles["form__main-desc--textset"]}`}>
+            <h3>Want to understand your visa options?</h3>
+            <p>
+              Submit the form below and our team of experienced attorneys will
+              reivew your information and send a preliminary assessment of your
+              case based on your goals
+            </p>
+          </div>
+        </div>
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={`${styles["auth--form"]}`}
+      >
+        <TextInput
+          label="First Name"
+          name="firstName"
+          placeholder="First Name"
+          register={register}
+          error={errors.firstName?.message}
+        />
+        <TextInput
+          label="Last Name"
+          name="lastName"
+          register={register}
+          placeholder="Last Name"
+          error={errors.lastName?.message}
+        />
+        <TextInput
+          label="Email"
+          name="email"
+          placeholder="Email"
+          register={register}
+          error={errors.email?.message}
+        />
+        <TextInput
+          label="LinkedIn Profile"
+          name="linkedIn"
+          placeholder="LinkedIn/Personal Website URL"
+          register={register}
+          error={errors.linkedIn?.message}
+        />
+        <div className={`${styles["visas__sec"]}`}>
+          <div className={`${styles["visas__sec-inner"]}`}>
+            <img src="./images/dice-img.png" alt="" />
+            <h3>Visa categories of interest?</h3>
+          </div>
+          <MultiSelect
+            label="Visas of Interest"
+            name="visas"
+            control={control}
+            options={["o-1", "EB-1A", "EB-2-NIW", "I don't know"]}
+            error={errors.visas?.message}
+          />
+        </div>
+        <div className={`${styles["info__sec"]}`}>
+           <div className={`${styles["info__sec-inner"]}`}>
+            <img src="./images/heart-img.png" alt="" />
+            <h3>How can we help you?</h3>
+          </div>
+          <TextAreaInput
+            label="Additional Information"
+            name="additionalInfo"
+            register={register}
+            error={errors.additionalInfo?.message}
+          />
+        </div>
+
+        {/* <FileInput
+          label="Resume / CV"
+          name="resume"
+          control={control}
+          error={errors.resume?.message}
+        /> */}
+
+        <Button className={`${styles["btn-submit"]}`}>Submit</Button>
       </form>
     </div>
   );
