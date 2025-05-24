@@ -12,6 +12,7 @@ const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup.string().min(4, "Password too short").required("Password is required"),
 });
+
 interface LoginFormValues {
   email: string;
   password: string;
@@ -24,7 +25,7 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginFormValues>({
     resolver: yupResolver(schema),
   });
 
@@ -47,14 +48,14 @@ export default function LoginForm() {
     <div className={styles["login__container"]}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles["login__form"]}>
         <h2>Admin Login</h2>
-        <TextInput
+        <TextInput<LoginFormValues>
           label="Email"
           name="email"
           placeholder="admin@example.com"
           register={register}
           error={errors.email?.message}
         />
-        <TextInput
+        <TextInput<LoginFormValues>
           label="Password"
           name="password"
           placeholder="Enter your password"
