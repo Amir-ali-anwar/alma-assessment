@@ -5,7 +5,8 @@ import { ObjectId } from "mongodb";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.formData();
-
+    console.log(data);
+    
     const lead = {
       firstName: data.get("firstName"),
       lastName: data.get("lastName"),
@@ -14,6 +15,7 @@ export async function POST(req: NextRequest) {
       visas: data.getAll("visas"),
       additionalInfo: data.get("additionalInfo"),
       resume: data.get("resume"),
+      country: data.get("countryOfCitizenship"),
       status: "Pending",
       submittedAt: new Date(),
     };
