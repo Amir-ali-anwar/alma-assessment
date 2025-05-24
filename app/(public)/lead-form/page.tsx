@@ -10,7 +10,7 @@ import MultiSelect from "@/app/shared/MultSelect/Multiselect";
 import styles from "../public.module.scss";
 import Button from "@/app/shared/Button/Button";
 import Image from "next/image";
-type LeadFormData = {
+export type LeadFormData = {
   firstName: string;
   lastName: string;
   email: string;

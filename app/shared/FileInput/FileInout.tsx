@@ -1,14 +1,13 @@
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, Control, FieldPath } from "react-hook-form";
 import InputStyles from '../Input.module.scss'
-
+import { LeadFormData } from "@/app/(public)/lead-form/page";
 interface FileInputProps {
-  name: string;
-  control: any;
+  name: FieldPath<LeadFormData>;
+  control: Control<LeadFormData>;
   error?: string;
   label: string;
 }
-
 const FileInput: React.FC<FileInputProps> = ({ name, control, error, label }) => (
   <div  className={`${InputStyles['input--file']} ${error ? InputStyles['error'] : ''}`}>
     <label>{label}</label>

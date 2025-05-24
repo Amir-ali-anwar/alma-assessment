@@ -1,10 +1,12 @@
 import React from "react";
 import InputStyles from "../Input.module.scss";
+import { UseFormRegister } from "react-hook-form";
 
+import {LeadFormData} from "@/app/(public)/lead-form/page";
 interface TextAreaProps {
   label?: string;
-  name: string;
-  register: any;
+  name: keyof LeadFormData;
+  register: UseFormRegister<LeadFormData>;
   error?: string;
   placeholder?: string;
 }
