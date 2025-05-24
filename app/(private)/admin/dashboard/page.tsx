@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 import styles from "./dashbaord.module.scss";
 import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
+import { FaTimes } from "react-icons/fa";
+
 import Button from "@/app/shared/Button/Button";
 import { useEffect, useState } from "react";
 import { FaArrowDown } from "react-icons/fa6";
@@ -68,15 +70,16 @@ export default function Dashboard() {
                   height={100}
                   alt="site logo"
                 />
+                <div className={`${styles["cross-icon"]}`}>
+                  <FaTimes />
+                </div>
               </div>
 
               <div className={`${styles["dashbaord-left-secs"]}`}>
                 <ul>
                   <li>Leads</li>
                   <li>Settings</li>
-                  <li>
-                    {/* <button onClick={logout}>Logout</button> */}
-                  </li>
+                  <li>{/* <button onClick={logout}>Logout</button> */}</li>
                 </ul>
               </div>
             </div>
