@@ -8,7 +8,7 @@ export function middleware(request) {
   const alwaysAllowRoutes = ["/invitation"];
 
   // Routes only accessible if NOT logged in (public)
-  const publicRoutes = ["/lead-form", "/signin", "/signup"];
+const publicRoutes = ["/lead-form", "/signin", "/signup", "/login"];
 
   // Routes only accessible if logged in (private)
   const privateRoutes = ["/admin", "/dashboard"];
