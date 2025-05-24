@@ -1,9 +1,15 @@
 .dashbaord-inner {
    display: flex;
+   height: 100vh;
 
    .dashbaord-left {
       flex: 0 0 20%;
       border-right: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      /* height: 100vh; */
+      justify-content: space-between;
+      padding-bottom: 30px;
 
       .site--logo {
          width: 100px;
@@ -11,6 +17,43 @@
 
          img {
             object-fit: contain;
+         }
+      }
+
+      .dashbaord-left-secs {
+         // min-height: 100dvh;
+
+         ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+               font-size: 15px;
+               line-height: 20px;
+
+               &:first-child {
+                  font-size: 16px;
+                  line-height: 20px;
+                  font-weight: 500;
+                  margin-bottom: 30px;
+               }
+            }
+         }
+      }
+
+      .dashbaord-admin-block {
+         span {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            background-color: #ECECEC;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 500;
          }
       }
    }
@@ -53,6 +96,7 @@
                   color: #BCBCBC;
                   border-radius: 8px;
                   font-weight: 300;
+
                   &:focus-within {
                      outline: 0;
                   }
@@ -76,7 +120,7 @@
          table {
             width: 100%;
             border: 1px solid #E8E8E8;
-                border-radius: 25px;
+            border-radius: 25px;
 
             th {
                border-bottom: 1px solid #E8E8E8;
@@ -85,23 +129,100 @@
                color: #BABABA;
                font-weight: 300;
                font-size: 15px;
-                &:first-child{
+
+               &:first-child {
                   padding-left: 18px;
+               }
+
+               .tbl-head-set {
+                  display: flex;
+                  align-items: center;
+                  gap: 0 6px;
                }
             }
 
-            td {
-               color: #111111;
-                border-bottom: 1px solid #E8E8E8;
-               font-size: 15px;
-               line-height: 20px;
-               padding: 20px 0;
-               text-align: left;
-               &:first-child{
-                  padding-left: 18px;
+            tr {
+               &:last-child {
+                  td {
+                     border-bottom: 0;
+                  }
                }
+
+               td {
+                  color: #111111;
+                  font-size: 15px;
+                  line-height: 20px;
+                  padding: 20px 0;
+                  border-bottom: 1px solid #E8E8E8;
+                  text-align: left;
+
+                  &:first-child {
+                     padding-left: 18px;
+                     width: 20%;
+                  }
+
+                  &:nth-child(2) {
+                     padding-left: 18px;
+                     width: 20%;
+                  }
+
+                  &:nth-child(3) {
+                     width: 20%;
+                  }
+               }
+
             }
          }
       }
    }
+}
+
+.paginaiton-main {
+   display: flex;
+   justify-content: flex-end;
+   padding: 10px 0;
+   //   margin-top: 20px;
+}
+
+.dashbaord-admin-block {
+   display: flex;
+   align-items: center;
+   gap: 0 10px;
+
+   span {
+      width: 40px;
+      height: 40px;
+      display: inline-block;
+      background-color: #ECECEC;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 500;
+
+   }
+
+   h5 {
+      font-size: 16px;
+      line-height: 20px;
+
+   }
+}
+
+.paginaiton-main a {
+   color: #383838;
+   float: left;
+   padding: 4px 10px;
+   text-decoration: none;
+   border: 1px solid transparent;
+   margin: 0 4px;
+   border-radius: 4px;
+   transition: background-color 0.3s;
+   font-size: 12px;
+}
+
+
+.paginaiton-main a.active {
+   border: 1px solid #000;
 }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
 import Button from "@/app/shared/Button/Button";
 import { useEffect, useState } from "react";
+import { FaArrowDown } from "react-icons/fa6";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -38,23 +39,26 @@ export default function Dashboard() {
       <div className="container">
         <div className={`${styles["dashbaord-inner"]}`}>
           <div className={`${styles["dashbaord-left"]}`}>
-            <div className={`${styles["site--logo"]}`}>
-              <Image
-                src="/images/logo.png"
-                width={100}
-                height={100}
-                alt="site logo"
-              />
-            </div>
-            <div className={`${styles["dashbaord-left-secs"]}`}>
+            <div className={`${styles["dashbaord-left-inner"]}`}>
+              <div className={`${styles["site--logo"]}`}>
+                <Image
+                  src="/images/logo.png"
+                  width={100}
+                  height={100}
+                  alt="site logo"
+                />
+              </div>
+
+              <div className={`${styles["dashbaord-left-secs"]}`}>
                 <ul>
                   <li>Leads</li>
                   <li>Settings</li>
                 </ul>
+              </div>
             </div>
-            <div className={`${styles["dashbaord-admin-block"]}`} >
-                <span>A</span>
-                <h5>Admin</h5>
+            <div className={`${styles["dashbaord-admin-block"]}`}>
+              <span>A</span>
+              <h5>Admin</h5>
             </div>
           </div>
           <div className={`${styles["dashbaord-right"]}`}>
@@ -62,7 +66,7 @@ export default function Dashboard() {
               <h4>Leads</h4>
               <div className={`${styles["dashbaord_info-search"]}`}>
                 <form action="">
-                  <div  className={`${styles["search-input"]}`}>
+                  <div className={`${styles["search-input"]}`}>
                     <CiSearch />
                     <input type="text" placeholder="Search" />
                   </div>
@@ -74,10 +78,26 @@ export default function Dashboard() {
               <table cellPadding={0} cellSpacing={0}>
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Submitted</th>
-                    <th>Status</th>
-                    <th>Country</th>
+                    <th>
+                      <div className={`${styles["tbl-head-set"]}`}>
+                        Name <FaArrowDown />
+                      </div>
+                    </th>
+                    <th>
+                      <div className={`${styles["tbl-head-set"]}`}>
+                        Submitted <FaArrowDown />
+                      </div>
+                    </th>
+                    <th>
+                      <div className={`${styles["tbl-head-set"]}`}>
+                        Status <FaArrowDown />
+                      </div>
+                    </th>
+                    <th>
+                      <div className={`${styles["tbl-head-set"]}`}>
+                        Country <FaArrowDown />
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -90,6 +110,22 @@ export default function Dashboard() {
                       <td>{item.status}</td>
                     </tr>
                   ))}
+                  <tr>
+                    <td colSpan={5}>
+                      <div className={`${styles["paginaiton-main"]}`}>
+                        <a href="#">&laquo;</a>
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#" className={`${styles["active"]}`}>
+                          3
+                        </a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
