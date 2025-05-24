@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/app/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 export async function POST(req: NextRequest) {
   try {
@@ -41,3 +42,32 @@ export async function GET() {
     return NextResponse.json({ success: false, error: 'Something went wrong' }, { status: 500 });
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const { id, status } = await req.json();
+    console.log({id})
+    console.log({status})
+    if (!id || !status) {
+      return NextResponse.json({ success: false, error: "Missing ID or status" }, { status: 400 });
+    }
+
+    const client = await clientPromise;
+    const db = client.db("lead-management");
+
+    const result = await db.collection("leads").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { status } }
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json({ success: false, error: "Lead not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, message: "Status updated" });
+  } catch (error) {
+    console.error("Error updating lead status:", error);
+    return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
+  }
+}
+

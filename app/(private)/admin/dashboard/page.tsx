@@ -11,37 +11,50 @@ export default function Dashboard() {
   const router = useRouter();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  console.log(data);
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await fetch("/api/leads");
-        const json = await res.json();
-        if (json.success) {
-          setData(json.data);
-        }
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
-        setLoading(false);
+  const getData = async () => {
+    try {
+      const res = await fetch("/api/leads");
+      const json = await res.json();
+      if (json.success) {
+        setData(json.data);
       }
-    };
-
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     getData();
   }, []);
   const handleStatusUpdate = async (id: string) => {
-  await fetch(`/api/leads/${id}`, {
-    method: 'PATCH',
-    body: JSON.stringify({ status: 'Reached Out' }),
-    headers: { 'Content-Type': 'application/json' },
-  });
-  // Refresh UI or update local state
-};
-
-  const logout = () => {
-    document.cookie = "token=; max-age=0; path=/"; // clear cookie
-    router.push("/login");
+    try {
+      const res = await fetch("/api/leads", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: "Reached Out" }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        getData(); // Refresh the table after status update
+      }
+    } catch (error) {
+      console.error("Failed to update status:", error);
+    }
   };
+
+  // const logout = async () => {
+  //   try {
+  //     const res = await fetch("/api/logout", { method: "POST" });
+  //     const json = await res.json();
+  //     console.log({json})
+  //     if (json.success) {
+  //       router.push("/login");
+  //     }
+  //   } catch (err) {
+  //     console.error("Logout failed:", err);
+  //   }
+  // };
   return (
     <section className={`${styles["dashbaord-main"]}`}>
       <div className="container">
@@ -50,7 +63,7 @@ export default function Dashboard() {
             <div className={`${styles["dashbaord-left-inner"]}`}>
               <div className={`${styles["site--logo"]}`}>
                 <Image
-                  src="/images/logo.png"
+                  src="/images/site-logo.png"
                   width={100}
                   height={100}
                   alt="site logo"
@@ -61,6 +74,9 @@ export default function Dashboard() {
                 <ul>
                   <li>Leads</li>
                   <li>Settings</li>
+                  <li>
+                    {/* <button onClick={logout}>Logout</button> */}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -116,7 +132,9 @@ export default function Dashboard() {
                 <tbody>
                   {loading ? (
                     <tr>
-                      <Loader />
+                      <td colSpan={5}>
+                        <Loader />
+                      </td>
                     </tr>
                   ) : data.length === 0 ? (
                     <tr>
@@ -129,17 +147,30 @@ export default function Dashboard() {
                           {item.firstName} {item.lastName}
                         </td>
                         <td>
-                          {new Date(item.submittedAt).toLocaleDateString()}
+                          {/* {item.submittedAt} */}
+                          {/* {new Date(item.submittedAt).toLocaleDateString()} */}
+                          {new Date(item.submittedAt).toLocaleString("en-US", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "2-digit",
+                            hour12: true,
+                          })}
                         </td>
                         <td>{item?.status}</td>
                         <td>{item?.country}</td>
                         <td>
-                          {item.status === "Pending" || item.status === "PENDING" ? (
-                            <button onClick={() => handleStatusUpdate(item.id)} className={`${styles["btn-update"]}`}>
+                          {item.status === "Pending" ||
+                          item.status === "PENDING" ? (
+                            <button
+                              onClick={() => handleStatusUpdate(item._id)}
+                              className={`${styles["btn-update"]}`}
+                            >
                               Mark as Reached Out
                             </button>
                           ) : (
-                            <span>✅</span>
+                            <span>✅ Marked as Reached Out</span>
                           )}
                         </td>
                       </tr>
