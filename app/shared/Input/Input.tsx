@@ -17,7 +17,7 @@ const TextInput: React.FC<TextInputProps> = ({
   type = "text",
   placeholder,
 }) => (
-  <div className={`${InputStyles["fom-input"]}`}>
+  <div className={`${InputStyles["fom-input"]} ${error ? InputStyles['error'] : ''}`}>
     <label htmlFor={name}>{label}</label>
     <input
       id={name}

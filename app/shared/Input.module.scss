@@ -13,7 +13,10 @@
         font-size: 13px;
         border-radius: 8px;
         padding-inline: 10px;
-        color: #cccccca6;
+        color: #000;
+        &:focus-visible{
+            outline: 0;
+        }
     }
 }
 
@@ -70,4 +73,14 @@
 }
 .input--file{
     margin-bottom: 20px;
+}
+
+.error input{
+    border: 1px solid #dc3545;
+}
+
+.input-error{
+    font-size: 12px;
+    margin:8px 0 0 2px;
+    color: #dc3545;
 }

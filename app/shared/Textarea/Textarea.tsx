@@ -16,7 +16,7 @@ const TextAreaInput: React.FC<TextAreaProps> = ({
   error,
   placeholder,
 }) => (
-  <div className={`${InputStyles['form-textarea']}`}>
+  <div className={`${InputStyles['form-textarea']} ${error ? InputStyles['error'] : ''} ${error ? InputStyles['error'] : ''}`}>
     {/* <label htmlFor={name}>{label}</label> */}
     <textarea
       rows={100}
