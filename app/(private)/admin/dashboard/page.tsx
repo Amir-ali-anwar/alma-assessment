@@ -8,11 +8,17 @@ import { FaTimes } from "react-icons/fa";
 import Button from "@/app/shared/Button/Button";
 import { useEffect, useState } from "react";
 import { FaArrowDown } from "react-icons/fa6";
+import { RxHamburgerMenu } from "react-icons/rx";
+
 import { Loader } from "@/app/shared/Loader/Loader";
 export default function Dashboard() {
   const router = useRouter();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isOpenSidebar, setOpenSidebar] = useState<boolean>(false);
+  const toggleSidebar = () => {
+    setOpenSidebar((prev) => !prev);
+  };
   const getData = async () => {
     try {
       const res = await fetch("/api/leads");
@@ -61,7 +67,11 @@ export default function Dashboard() {
     <section className={`${styles["dashbaord-main"]}`}>
       <div className="container">
         <div className={`${styles["dashbaord-inner"]}`}>
-          <div className={`${styles["dashbaord-left"]}`}>
+          <div
+            className={`${styles["dashbaord-left"]}  ${
+              isOpenSidebar ? styles["dashbaord-left-open"] : ""
+            }`}
+          >
             <div className={`${styles["dashbaord-left-inner"]}`}>
               <div className={`${styles["site--logo"]}`}>
                 <Image
@@ -70,7 +80,10 @@ export default function Dashboard() {
                   height={100}
                   alt="site logo"
                 />
-                <div className={`${styles["cross-icon"]}`}>
+                <div
+                  className={`${styles["cross-icon"]}`}
+                  onClick={toggleSidebar}
+                >
                   <FaTimes />
                 </div>
               </div>
@@ -89,6 +102,12 @@ export default function Dashboard() {
             </div>
           </div>
           <div className={`${styles["dashbaord-right"]}`}>
+            <div
+              className={`${styles["dashbaord-right--icon"]}`}
+              onClick={toggleSidebar}
+            >
+              <RxHamburgerMenu />
+            </div>
             <div className={`${styles["dashbaord-info-sec"]}`}>
               <h4>Leads</h4>
               <div className={`${styles["dashbaord_info-search"]}`}>
@@ -102,101 +121,106 @@ export default function Dashboard() {
               </div>
             </div>
             <div className={`${styles["dashbaord__table-sec"]}`}>
-              <table cellPadding={0} cellSpacing={0}>
-                <thead>
-                  <tr>
-                    <th>
-                      <div className={`${styles["tbl-head-set"]}`}>
-                        Name <FaArrowDown />
-                      </div>
-                    </th>
-                    <th>
-                      <div className={`${styles["tbl-head-set"]}`}>
-                        Submitted <FaArrowDown />
-                      </div>
-                    </th>
-                    <th>
-                      <div className={`${styles["tbl-head-set"]}`}>
-                        Status <FaArrowDown />
-                      </div>
-                    </th>
-                    <th>
-                      <div className={`${styles["tbl-head-set"]}`}>
-                        Country <FaArrowDown />
-                      </div>
-                    </th>
-                    <th>
-                      <div className={`${styles["tbl-head-set"]}`}>
-                        Mark as Reached Out
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading ? (
+              <div className={styles["table-scroll-wrapper"]}>
+                <table cellPadding={0} cellSpacing={0}>
+                  <thead>
                     <tr>
-                      <td colSpan={5}>
-                        <Loader />
-                      </td>
+                      <th>
+                        <div className={`${styles["tbl-head-set"]}`}>
+                          Name <FaArrowDown />
+                        </div>
+                      </th>
+                      <th>
+                        <div className={`${styles["tbl-head-set"]}`}>
+                          Submitted <FaArrowDown />
+                        </div>
+                      </th>
+                      <th>
+                        <div className={`${styles["tbl-head-set"]}`}>
+                          Status <FaArrowDown />
+                        </div>
+                      </th>
+                      <th>
+                        <div className={`${styles["tbl-head-set"]}`}>
+                          Country <FaArrowDown />
+                        </div>
+                      </th>
+                      <th>
+                        <div className={`${styles["tbl-head-set"]}`}>
+                          Mark as Reached Out
+                        </div>
+                      </th>
                     </tr>
-                  ) : data.length === 0 ? (
-                    <tr>
-                      <td colSpan={3}>No applications found.</td>
-                    </tr>
-                  ) : (
-                    data.map((item, index) => (
-                      <tr key={index}>
-                        <td>
-                          {item.firstName} {item.lastName}
-                        </td>
-                        <td>
-                          {/* {item.submittedAt} */}
-                          {/* {new Date(item.submittedAt).toLocaleDateString()} */}
-                          {new Date(item.submittedAt).toLocaleString("en-US", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "numeric",
-                            minute: "2-digit",
-                            hour12: true,
-                          })}
-                        </td>
-                        <td>{item?.status}</td>
-                        <td>{item?.country}</td>
-                        <td>
-                          {item.status === "Pending" ||
-                          item.status === "PENDING" ? (
-                            <button
-                              onClick={() => handleStatusUpdate(item._id)}
-                              className={`${styles["btn-update"]}`}
-                            >
-                              Mark as Reached Out
-                            </button>
-                          ) : (
-                            <span>✅ Marked as Reached Out</span>
-                          )}
+                  </thead>
+                  <tbody>
+                    {loading ? (
+                      <tr>
+                        <td colSpan={5}>
+                          <Loader />
                         </td>
                       </tr>
-                    ))
-                  )}
-                  <tr>
-                    <td colSpan={5}>
-                      <div className={`${styles["paginaiton-main"]}`}>
-                        <a href="#">&laquo;</a>
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#" className={`${styles["active"]}`}>
-                          3
-                        </a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#">6</a>
-                        <a href="#">&raquo;</a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    ) : data.length === 0 ? (
+                      <tr>
+                        <td colSpan={3}>No applications found.</td>
+                      </tr>
+                    ) : (
+                      data.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            {item.firstName} {item.lastName}
+                          </td>
+                          <td>
+                            {/* {item.submittedAt} */}
+                            {/* {new Date(item.submittedAt).toLocaleDateString()} */}
+                            {new Date(item.submittedAt).toLocaleString(
+                              "en-US",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                                hour: "numeric",
+                                minute: "2-digit",
+                                hour12: true,
+                              }
+                            )}
+                          </td>
+                          <td>{item?.status}</td>
+                          <td>{item?.country}</td>
+                          <td>
+                            {item.status === "Pending" ||
+                            item.status === "PENDING" ? (
+                              <button
+                                onClick={() => handleStatusUpdate(item._id)}
+                                className={`${styles["btn-update"]}`}
+                              >
+                                Mark as Reached Out
+                              </button>
+                            ) : (
+                              <span>✅ Marked as Reached Out</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                    <tr>
+                      <td colSpan={5}>
+                        <div className={`${styles["paginaiton-main"]}`}>
+                          <a href="#">&laquo;</a>
+                          <a href="#">1</a>
+                          <a href="#">2</a>
+                          <a href="#" className={`${styles["active"]}`}>
+                            3
+                          </a>
+                          <a href="#">4</a>
+                          <a href="#">5</a>
+                          <a href="#">6</a>
+                          <a href="#">&raquo;</a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
