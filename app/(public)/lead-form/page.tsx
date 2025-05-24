@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import styles from "../public.module.scss";
 export default function LeadFormPage() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -36,10 +37,21 @@ export default function LeadFormPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
-     
-
-      <button type="submit">Submit</button>
-    </form>
+    <div className={`${styles["form__main-sec"]}`}>
+       <div className="container">
+          <div  className={`${styles["form__main-desc"]}`}>
+              <div className={`${styles["icon"]}`}>
+                  <img src="./images/icon.png" alt="" />
+              </div>
+              <div className={`${styles["form__main-desc--textset"]}`}>
+                  <h3>want to understand your visa options?</h3>
+                  <p>submit the form below and our team of experienced attorneys will reivew your information and send a preliminary assessment of your case based on your goals</p>
+              </div>
+          </div>
+      </div> 
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 }

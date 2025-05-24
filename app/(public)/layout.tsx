@@ -1,7 +1,7 @@
 // app/(public)/layout.tsx
 import React from "react";
-
-
+import Image from "next/image";
+import styles from './public.module.scss'
 export const metadata = {
   title: "Lead Submission | YourApp",
   description: "Submit your details for visa opportunities",
@@ -15,11 +15,7 @@ export default function PublicLayout({
   return (
     <html lang="en">
       <body>
-        <header>
-          <div className="banner-sec">
-              <h5>alma</h5>
-              <p>Get An Assessment of your immigraion Case</p>
-          </div>
+        <header className={`${styles["banner--sec"]}`}>
         </header>
        <main>{children}</main>
       </body>
