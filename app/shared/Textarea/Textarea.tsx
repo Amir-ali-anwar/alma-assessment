@@ -2,7 +2,7 @@ import React from "react";
 import InputStyles from "../Input.module.scss";
 
 interface TextAreaProps {
-  label: string;
+  label?: string;
   name: string;
   register: any;
   error?: string;

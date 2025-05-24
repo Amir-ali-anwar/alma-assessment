@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import styles from "./dashbaord.module.scss";
 import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
@@ -12,7 +12,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 
 import { Loader } from "@/app/shared/Loader/Loader";
 export default function Dashboard() {
-  const router = useRouter();
+  // const router = useRouter();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpenSidebar, setOpenSidebar] = useState<boolean>(false);

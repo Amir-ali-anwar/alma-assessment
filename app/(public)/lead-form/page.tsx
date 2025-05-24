@@ -9,7 +9,7 @@ import FileInput from "@/app/shared/FileInput/FileInout";
 import MultiSelect from "@/app/shared/MultSelect/Multiselect";
 import styles from "../public.module.scss";
 import Button from "@/app/shared/Button/Button";
-
+import Image from "next/image";
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
@@ -94,7 +94,7 @@ export default function LeadForm() {
         <div className="container">
           <div className={`${styles["form__main-desc"]}`}>
             <div className={`${styles["icon"]}`}>
-              <img src="./images/icon.png" alt="" />
+              <Image src="/images/icon.png" alt="icon" width={70} height={70} />
             </div>
             <div className={`${styles["form__main-desc--textset"]}`}>
               <h3>Want to understand your visa options?</h3>
