@@ -1,6 +1,12 @@
+'use client'
 import Button from "../shared/Button/Button";
 import styles from "./thankyou.module.scss";
+
+import { useRouter } from 'next/navigation';
+
 export default function ThankYouPage() {
+    const router = useRouter();
+
   return (
     <div className={`${styles["thankyou__main"]}`}>
       <div className="container">
@@ -14,7 +20,7 @@ export default function ThankYouPage() {
         </p>
       </div>
     </div>
-    <Button className={`${styles['btn-submit']}`}>Go Back to Homepage</Button>
+    <Button className={`${styles['btn-submit']}`} onClick={() => router.push('/lead-form')}>Go Back to Homepage</Button>
     </div>
   );
 }
