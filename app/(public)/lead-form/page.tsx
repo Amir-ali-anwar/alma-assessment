@@ -14,18 +14,38 @@ const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
+  countryOfCitizenship: yup
+    .string()
+    .required("Country of citizenship is required"),
   linkedIn: yup.string().url("Invalid URL").required("LinkedIn is required"),
   visas: yup.array().min(1, "Select at least one visa").required(),
   additionalInfo: yup.string().required("Additional info required"),
-  //  resume: yup
-  //   .mixed()
-  //   .required("Resume is required")
-  //   .test("fileType", "Only PDF files are allowed", (value) => {
-  //     return value && value?.type === "application/pdf";
-  //   })
-  //   .test("fileSize", "File size must be less than 5MB", (value) => {
-  //     return value && value?.size <= 5 * 1024 * 1024;
-  //   }),
+  resume: yup
+    .mixed()
+    .required("Resume is required")
+    .test("fileType", "Only PDF files are allowed", (value) => {
+      if (!value) return false;
+
+      const file =
+        value instanceof FileList
+          ? value[0]
+          : Array.isArray(value)
+          ? value[0]
+          : value;
+      return file?.type === "application/pdf";
+    })
+    .test("fileSize", "File size must be less than 5MB", (value) => {
+      if (!value) return false;
+
+      const file =
+        value instanceof FileList
+          ? value[0]
+          : Array.isArray(value)
+          ? value[0]
+          : value;
+
+      return file?.size <= 5 * 1024 * 1024;
+    }),
 });
 export default function LeadForm() {
   const router = useRouter();
@@ -85,76 +105,83 @@ export default function LeadForm() {
               </p>
             </div>
           </div>
- 
-         <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={`${styles["auth--form"]}`}
-        >
-          <TextInput
-            label="First Name"
-            name="firstName"
-            placeholder="First Name"
-            register={register}
-            error={errors.firstName?.message}
-          />
-          <TextInput
-            label="Last Name"
-            name="lastName"
-            register={register}
-            placeholder="Last Name"
-            error={errors.lastName?.message}
-          />
-          <TextInput
-            label="Email"
-            name="email"
-            placeholder="Email"
-            register={register}
-            error={errors.email?.message}
-          />
-          <TextInput
-            label="LinkedIn Profile"
-            name="linkedIn"
-            placeholder="LinkedIn/Personal Website URL"
-            register={register}
-            error={errors.linkedIn?.message}
-          />
-          <div className={`${styles["visas__sec"]}`}>
-            <div className={`${styles["visas__sec-inner"]}`}>
-              <img src="./images/dice-img.png" alt="" />
-              <h3>Visa categories of interest?</h3>
-            </div>
-            <MultiSelect
-              label="Visas of Interest"
-              name="visas"
-              control={control}
-              options={["o-1", "EB-1A", "EB-2-NIW", "I don't know"]}
-              error={errors.visas?.message}
-            />
-          </div>
-          <div className={`${styles["info__sec"]}`}>
-            <div className={`${styles["info__sec-inner"]}`}>
-              <img src="./images/heart-img.png" alt="" />
-              <h3>How can we help you?</h3>
-            </div>
-            <TextAreaInput
-              label="Additional Information"
-              name="additionalInfo"
+
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={`${styles["auth--form"]}`}
+          >
+            <TextInput
+              label="First Name"
+              name="firstName"
+              placeholder="First Name"
               register={register}
-              error={errors.additionalInfo?.message}
+              error={errors.firstName?.message}
             />
-          </div>
+            <TextInput
+              label="Last Name"
+              name="lastName"
+              register={register}
+              placeholder="Last Name"
+              error={errors.lastName?.message}
+            />
 
-          <FileInput
-            label="Resume / CV"
-            name="resume"
-            control={control}
+            <TextInput
+              label="Email"
+              name="email"
+              placeholder="Email"
+              register={register}
+              error={errors.email?.message}
+            />
+            <TextInput
+              label="Country of Citizenship"
+              name="countryOfCitizenship"
+              placeholder="Country of Citizenship"
+              register={register}
+              error={errors.countryOfCitizenship?.message}
+            />
+            <TextInput
+              label="LinkedIn Profile"
+              name="linkedIn"
+              placeholder="LinkedIn/Personal Website URL"
+              register={register}
+              error={errors.linkedIn?.message}
+            />
+            <div className={`${styles["visas__sec"]}`}>
+              <div className={`${styles["visas__sec-inner"]}`}>
+                <img src="./images/dice-img.png" alt="" />
+                <h3>Visa categories of interest?</h3>
+              </div>
+              <MultiSelect
+                label="Visas of Interest"
+                name="visas"
+                control={control}
+                options={["o-1", "EB-1A", "EB-2-NIW", "I don't know"]}
+                error={errors.visas?.message}
+              />
+            </div>
+            <div className={`${styles["info__sec"]}`}>
+              <div className={`${styles["info__sec-inner"]}`}>
+                <img src="./images/heart-img.png" alt="" />
+                <h3>How can we help you?</h3>
+              </div>
+              <TextAreaInput
+                label="Additional Information"
+                name="additionalInfo"
+                register={register}
+                error={errors.additionalInfo?.message}
+              />
+            </div>
 
-            // error={errors.resume?.message}
-          />
+            <FileInput
+              label="Resume / CV"
+              name="resume"
+              control={control}
+              error={errors.resume?.message}
+            />
 
-          <Button className={`${styles["btn-submit"]}`}>Submit</Button>
-        </form>
-      </div>
+            <Button className={`${styles["btn-submit"]}`}>Submit</Button>
+          </form>
+        </div>
       </div>
     </>
   );
