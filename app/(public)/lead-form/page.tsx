@@ -44,7 +44,24 @@ export default function LeadForm() {
         formData.append(key, value as any);
       }
     });
-    console.log("Form submitted", formData);
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Lead submitted successfully!");
+        // Optionally reset form
+      } else {
+        alert("Something went wrong.");
+      }
+    } catch (error) {
+      console.error("Error submitting lead:", error);
+      alert("Error submitting form.");
+    }
   };
   return (
     <div className={`${styles["form__main-sec"]}`}>
@@ -109,7 +126,7 @@ export default function LeadForm() {
           />
         </div>
         <div className={`${styles["info__sec"]}`}>
-           <div className={`${styles["info__sec-inner"]}`}>
+          <div className={`${styles["info__sec-inner"]}`}>
             <img src="./images/heart-img.png" alt="" />
             <h3>How can we help you?</h3>
           </div>
@@ -125,7 +142,7 @@ export default function LeadForm() {
           label="Resume / CV"
           name="resume"
           control={control}
-        
+
           // error={errors.resume?.message}
         />
 
