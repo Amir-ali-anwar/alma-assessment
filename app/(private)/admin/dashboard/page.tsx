@@ -11,9 +11,12 @@ import { FaArrowDown } from "react-icons/fa6";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 import { Loader } from "@/app/shared/Loader/Loader";
+type Lead<T = any> = {
+  [key: string]: T;
+};
 export default function Dashboard() {
   // const router = useRouter();
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpenSidebar, setOpenSidebar] = useState<boolean>(false);
   const toggleSidebar = () => {

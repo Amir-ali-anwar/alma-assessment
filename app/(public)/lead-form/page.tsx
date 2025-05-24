@@ -10,55 +10,55 @@ import MultiSelect from "@/app/shared/MultSelect/Multiselect";
 import styles from "../public.module.scss";
 import Button from "@/app/shared/Button/Button";
 import Image from "next/image";
-const schema = yup.object().shape({
+type LeadFormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  linkedIn: string;
+  visas: string[];
+  additionalInfo: string;
+  countryOfCitizenship?: string;
+  resume?: File;
+};
+const schema: yup.ObjectSchema<LeadFormData> = yup.object({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
-  countryOfCitizenship: yup
-    .string()
-    .required("Country of citizenship is required"),
+  countryOfCitizenship: yup.string().required("Country of citizenship is required"),
   linkedIn: yup.string().url("Invalid URL").required("LinkedIn is required"),
-  visas: yup.array().min(1, "Select at least one visa").required(),
+ visas: yup
+  .array()
+  .of(yup.string().required("Visa type is required"))
+  .min(1, "Select at least one visa")
+  .required("Visa selection is required"),
   additionalInfo: yup.string().required("Additional info required"),
   resume: yup
-    .mixed()
+    .mixed<File>()
     .required("Resume is required")
     .test("fileType", "Only PDF files are allowed", (value) => {
-      if (!value) return false;
-
-      const file =
-        value instanceof FileList
-          ? value[0]
-          : Array.isArray(value)
-          ? value[0]
-          : value;
+      const file = value instanceof FileList ? value[0] : value;
       return file?.type === "application/pdf";
     })
     .test("fileSize", "File size must be less than 5MB", (value) => {
-      if (!value) return false;
-
-      const file =
-        value instanceof FileList
-          ? value[0]
-          : Array.isArray(value)
-          ? value[0]
-          : value;
-
+      const file = value instanceof FileList ? value[0] : value;
       return file?.size <= 5 * 1024 * 1024;
     }),
 });
+
+
 export default function LeadForm() {
   const router = useRouter();
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-  const onSubmit = async (data: any) => {
+ const {
+  register,
+  control,
+  handleSubmit,
+  reset,
+  formState: { errors },
+} = useForm<LeadFormData>({
+  resolver: yupResolver(schema),
+});
+
+  const onSubmit = async (data: LeadFormData) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (key === "visas") {
